@@ -138,22 +138,23 @@ La aplicación sigue una arquitectura **SPA** con **react-router-dom**:
 ## 📂 Estructura de archivos
 
 src/
+
 ├─ pages/
-
+| |
 │ ├─ Home.js
-
+| |
 │ └─ Presupuestos.js
-
+| |
 ├─ components/
-
+| |
 │ ├─ PanelStyle.js
-
+| |
 │ ├─ BotonControles.js
-
+| |
 │ └─ ModalStyle.js
-
+| |
 ├─ App.js
-
+| |
 └─ index.js
 
 
