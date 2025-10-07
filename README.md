@@ -1,70 +1,167 @@
-# Getting Started with Create React App
+# 📊 Calculadora de Presupuesto Web - React SPA
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🔹 Descripción general
 
-## Available Scripts
+**Calculadora de Presupuesto** es una aplicación web construida con **React** que permite a los usuarios crear, gestionar y almacenar presupuestos para servicios digitales.
 
-In the project directory, you can run:
+La aplicación es una **SPA (Single Page Application)** que calcula presupuestos basados en tres servicios principales:
 
-### `npm start`
+- 💻 Desarrollo Web  
+- 🔍 Consultoría SEO  
+- 📈 Campañas de Google Ads  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Los presupuestos se pueden almacenar en el navegador (`localStorage`), ordenar, buscar y compartir mediante parámetros en la URL.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## ⚙️ Capacidades clave
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Capacidad | Descripción | Componente principal |
+|-----------|------------|-------------------|
+| ✅ Selección de servicios | Elige entre Web (500€), SEO (300€), Ads (200€) | `Presupuestos.js` |
+| 🛠 Configuración de extras web | Número de páginas e idiomas adicionales | `PanelStyle`, `BotonControles` |
+| 🧮 Cálculo de precios | Total en tiempo real: servicios base + extras | Gestión de estado en `Presupuestos.js` |
+| 💾 Persistencia de presupuestos | Guardado con metadatos (nombre, cliente, fecha) | `guardarPresupuesto` |
+| 📋 Gestión de presupuestos | Ver, ordenar y buscar presupuestos guardados | `Lista` |
+| 🌐 Estado compartido | Compartir presupuestos mediante URL | `useSearchParams` |
+| ℹ️ Modales informativos | Ayuda contextual para páginas e idiomas | `ModalStyle` |
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🧩 Pila tecnológica
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**React Ecosystem:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- react: ^18.2.0  
+- react-dom: ^18.2.0  
+- react-router-dom: ^6.4.3  
+- react-scripts: 5.0.1  
 
-### `npm run eject`
+**Estilos:**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- styled-components: ^5.3.6  
+- Bootstrap 5.2.2 (CDN)  
+- Font Awesome (CDN)  
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Testing:**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- @testing-library/react  
+- @testing-library/jest-dom  
+- @testing-library/user-event  
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Sistema de construcción:**
 
-## Learn More
+```bash
+npm start   # Servidor de desarrollo
+npm build   # Build de producción
+npm test    # Pruebas unitarias
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🏛 Arquitectura
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 🔹 Entrada y enrutamiento
 
-### Code Splitting
+La aplicación sigue una arquitectura **SPA** con **react-router-dom**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- `/` → `Home.js` (página de bienvenida)  
+- `/presupuestos` → `Presupuestos.js` (calculadora y lista de presupuestos)
 
-### Analyzing the Bundle Size
+### 🔹 Componentes principales
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- `Home.js` → Página inicial con navegación  
+- `Presupuestos.js` → Gestión de servicios, cálculo y almacenamiento  
+- `Lista` → Visualización de presupuestos guardados  
+- `ModalStyle` → Ayuda contextual  
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 🗃 Gestión de estados y persistencia
 
-### Advanced Configuration
+### 🔹 Variables de estado y localStorage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| Variable      | Tipo      | Clave `localStorage` | Objetivo                                 |
+|---------------|----------|---------------------|-----------------------------------------|
+| total         | número   | 'total'             | Total de servicios base                  |
+| webChecked    | booleano | 'webChecked'        | Estado del servicio Web                  |
+| seoChecked    | booleano | 'seoChecked'        | Estado del servicio SEO                  |
+| adsChecked    | booleano | 'adsChecked'        | Estado del servicio Ads                  |
+| paginas       | número   | 'paginas'           | Número de páginas adicionales           |
+| idiomas       | número   | 'idiomas'           | Número de idiomas adicionales           |
+| totalExtras   | número   | 'totalExtras'       | Cálculo extra: `(paginas × idiomas) × 30` |
+| nombrePto     | string   | 'nombrePto'         | Nombre del presupuesto                   |
+| cliente       | string   | 'cliente'           | Nombre del cliente                        |
+| id            | número   | 'id'                | ID autoincremental                        |
+| date          | string   | 'date'              | Fecha de creación                         |
+| modal         | booleano | —                   | Visibilidad de modal general              |
+| modalPag      | booleano | —                   | Modal info páginas                        |
+| modalId       | booleano | —                   | Modal info idiomas                        |
 
-### Deployment
+### 🔹 Funciones principales
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- `handleInputChange` → Cambios en checkboxes y campos de texto  
+- `handleNumberChange` → Cambios en campos numéricos  
+- `handleClick` → Incrementar/decrementar páginas o idiomas  
+- `handleModal` → Abrir/cerrar modales  
+- `guardarPresupuesto` → Guardar presupuestos en `localStorage`  
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 💾 Persistencia de datos
+
+1. **Estado actual:** sincronizado con `localStorage` usando `useEffect`  
+2. **Matriz de presupuestos guardados:** cada presupuesto es un objeto con:
+
+```json
+{
+  "id": "1",
+  "nombrePresupuesto": "Proyecto Web",
+  "nombreCliente": "Cliente XYZ",
+  "web": "true",
+  "seo": "false",
+  "ads": "true",
+  "paginas": "5",
+  "idiomas": "2",
+  "fecha": "07/10/2025",
+  "total": "800",
+  "totalExtras": "300"
+}
+```
+
+## 🌐 Compartir y navegar
+
+- **Navegación declarativa:** `<Link to='/presupuestos'>`  
+- **Navegación programática:** `window.location.reload()` tras guardar  
+- **Sincronización de parámetros en URL:** `/presupuestos?web=true&paginas=5&idiomas=2`  
+
+---
+
+## 📂 Estructura de archivos
+
+src/
+├─ pages/
+│ ├─ Home.js
+│ └─ Presupuestos.js
+├─ components/
+│ ├─ PanelStyle.js
+│ ├─ BotonControles.js
+│ └─ ModalStyle.js
+├─ App.js
+└─ index.js
+
+
+---
+
+## 🔗 Instalación y uso
+
+```bash
+# Clonar repositorio
+git clone https://github.com/MiriamFernandezPerez/sprint7-reactII.git
+cd sprint7-reactII
+
+# Instalar dependencias
+npm install
+
+# Ejecutar servidor de desarrollo
+npm start
+```
+
